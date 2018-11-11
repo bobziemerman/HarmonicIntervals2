@@ -1,0 +1,37 @@
+.main {
+  margin-top: 15px;
+}
+
+table {
+  display: inline-block;
+  margin: 0 5px;
+}
+
+table, th, td {
+  border: 1px solid grey;
+}
+
+.school-select {
+  width: auto !important;
+}
+
+.color-table td.group-name {
+  max-width: 65px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+
+
+/****************************** Bootstrap overrides **********************************/
+
+.table {
+    width: auto;
+}
+
+.table td,
+.table th {
+    padding: 0.3rem;
+}
+

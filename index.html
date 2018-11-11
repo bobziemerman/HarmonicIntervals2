@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Harmonic Intervals</title>
+    <link rel="shortcut icon" href="favicon.ico">
+
+    <!-- CSS Libraries -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="libs/isteven/isteven.css">
+
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/modules.css">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <div class="main" ng-app="harmonicIntervals" ng-controller="main">
+        <h2 class="center">Harmonic Intervals</h2>
+
+        <br/>
+        
+        <div class="row">
+            <div class="col-1"></div>
+
+            <!-- School chooser -->
+            <div class="col-5">
+                <h5 class="float-left">Choose School: </h5>
+                <select ng-model="school" 
+                        ng-options="s.name for s in schools" 
+                        class="school-select form-control" 
+                        id="school"></select>
+            </div>
+
+            <!-- Last week's math -->
+            <div class="col-5">
+                <div>
+                    <h5>Did anyone miss math last week? </h5>
+                </div>
+                <div>
+                    <span>Enter last week's data: </span>
+                    <input ng-model="mathGroups"></input>
+                </div>
+                <div>
+                    <span>Or select from the list: </span>
+                    <span   
+                        isteven-multi-select
+                        input-model="missedMath"
+                        output-model="missedMathState"
+                        button-label="name"
+                        item-label="name"
+                        tick-property="checked"
+                        helper-elements=""></span>
+                </div>
+            </div>
+        </div>
+
+        <br/>
+
+        <!-- Colored Schedule -->
+        <h5>Timeslots:</h5>
+        <div>
+            <table class="color-table table" 
+                   ng-if="days[dayName]"
+                   ng-repeat="(dayName, day) in school.schedule">
+                <tr>
+                    <td class="capitalized">{{dayName}}</td>
+                    <td class="group-name" ng-repeat="instrumentGroup in school.instrumentGroups">
+                        {{instrumentGroup.name}}
+                    </td>
+                </tr>
+                <tr ng-repeat="timeslot in day">
+                    <td>{{timeslot.startTime}} - {{timeslot.endTime}} {{gradeEvents(timeslot)}}</td>
+                    <td ng-repeat="instrumentGroup in school.instrumentGroups"
+                        ng-class="{'bg--green': timeslotLevel(timeslot, instrumentGroup) === 3,
+                                   'bg--yellow': timeslotLevel(timeslot, instrumentGroup) === 2,
+                                   'bg--orange': timeslotLevel(timeslot, instrumentGroup) === 1,
+                                   'bg--red': timeslotLevel(timeslot, instrumentGroup) < 1
+                                   }"
+                        data-toggle="tooltip"
+                        title="{{timeslotWarnings(timeslot, instrumentGroup)}}">
+                        <input type="checkbox"
+                               ng-model="computedSchedule[dayName+timeslot.startTime][instrumentGroup.name]" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <br/>
+
+        <!-- Printed Schedule -->
+        <h5>Your schedule:</h5>
+        <div>
+            <div>Everyone is seen twice except:</div>
+            <div ng-repeat="(count, groups) in notTwice">
+                <span class="text--red"><b>{{count}}</b></span> times: 
+                <span ng-repeat="group in groups">{{group}}</span>
+                <span ng-if="!$first">, </span>
+            </div>
+
+
+            <span ng-repeat="ig in school.instrumentGroups" ng-if="lessonCount(ig.name) !== 2">
+                {{ig.name}}: 
+                <b><span class="text--red">{{lessonCount(ig.name)}}</span></b><span ng-if="!$last">, </span>
+            </span>
+        </div>
+        
+        <div>
+            <table class="table">
+                <tr>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr ng-repeat="timeslot in school.schedule.monday">
+                    <td><b>{{timeslot.startTime}}</b></td>
+                </tr>
+            </table>
+            <table class="table">
+                <tr>
+                    <td ng-repeat="(dayName, day) in school.schedule" 
+                        ng-if="days[dayName]"
+                        class="capitalize"><b>{{dayName}}</b></td>
+                </tr>
+                <tr ng-repeat="timeslot in school.schedule.monday">
+                    <td ng-repeat="(dayName, day) in school.schedule" ng-if="days[dayName]">
+                        <span ng-repeat="(ig, val) in computedSchedule[dayName+timeslot.startTime]"
+                              ng-if="val">
+                            {{ig}}
+                        </span>&nbsp;
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div>
+            This week's schedule data to save: <span ng-if="missingMath().length <=2">None (no one missed math)</span>
+            <span ng-if="missingMath().length >2">
+                <b id="js-schedule-code">{{missingMath()}}</b>
+                <button id="js-copy-to-clipboard" data-clipboard-text="{{missingMath()}}">
+                    Copy to clipboard
+                </button>
+            </span>
+        </div>
+
+        <br/>
+
+        <!-- Schedule grade controls -->
+        <h5>Customize Schedule:</h5>
+        <div>
+            <table class="table" ng-repeat="(dayName, day) in school.schedule">
+                <tr>
+                    <td class="capitalize">
+                        {{dayName}}
+                        <input type="checkbox"
+                               ng-model="days[dayName]" />
+                    </td>
+                    <td ng-if="days[dayName]" ng-repeat="(gradeName, grade) in grades">
+                        {{grade.number}}X
+                        <input class=""
+                               type="checkbox"
+                               ng-click="toggleAllGrade(dayName, gradeName)"
+                               ng-checked="checkAllGrade(dayName, gradeName)">
+                    </td>
+                    <td ng-if="days[dayName]" ng-repeat="grade in grades">{{grade.number}}L</td>
+                    <td ng-if="days[dayName]" ng-repeat="grade in grades">{{grade.number}}M</td>
+                    <td ng-if="days[dayName]" ng-repeat="grade in grades">{{grade.number}}R</td>
+                    <td ng-if="days[dayName]" ng-repeat="teacher in teachers">
+                        {{teacher.name}} PE
+                    </td>
+
+                </tr>
+                <tr ng-repeat="(timeslotName, timeslot) in day">
+                    <td>{{timeslot.startTime}} - {{timeslot.endTime}}</td>
+
+                    <!-- Cancel checkboxes -->
+                    <td ng-if="days[dayName]" ng-repeat="(gradeName, grade) in grades">
+                        <div class="form-check">
+                            <input class="form-check-input"
+                                   type="checkbox"
+                                   ng-click="toggleGrade(dayName, timeslotName, gradeName)"
+                                   ng-checked="checkGrade(timeslot, gradeName)">
+                        </div>
+                    </td>
+                    <!-- Lunch checkboxes -->
+                    <td ng-if="days[dayName]" ng-repeat="(gradeName, grade) in grades">
+                        <div class="form-check">
+                            <input class="form-check-input" 
+                                   type="checkbox" 
+                                   ng-if="!checkGrade(timeslot, gradeName)"
+                                   ng-click="toggleLunch(dayName, timeslotName, gradeName)"
+                                   ng-checked="checkLunch(timeslot, gradeName)">
+                        </div>
+                    </td>
+                    <!-- Math checkboxes -->
+                    <td ng-if="days[dayName]" ng-repeat="(gradeName, grade) in grades">
+                        <div class="form-check">
+                            <input class="form-check-input"
+                                   type="checkbox"
+                                   ng-if="!checkGrade(timeslot, gradeName)"
+                                   ng-click="toggleMath(dayName, timeslotName, gradeName)"
+                                   ng-checked="checkMath(timeslot, gradeName)">
+                         </div>
+                    </td>
+                    <!-- Recess checkboxes -->
+                    <td ng-if="days[dayName]" ng-repeat="(gradeName, grade) in grades">
+                        <div class="form-check">
+                            <input class="form-check-input"
+                                   type="checkbox"
+                                   ng-if="!checkGrade(timeslot, gradeName)"
+                                   ng-click="toggleRecess(dayName, timeslotName, gradeName)"
+                                   ng-checked="checkRecess(timeslot, gradeName)">
+                        </div>
+                    </td>
+                    <!-- PE checkboxes -->
+                    <td ng-if="days[dayName]" ng-repeat="teacher in teachers">
+                       <div class="form-check">
+                            <input class="form-check-input"
+                                   type="checkbox"
+                                   ng-if="!checkGrade(timeslot, teacher.key)"
+                                   ng-click="togglePE(dayName, timeslotName, teacher.key)"
+                                   ng-checked="checkPE(timeslot, teacher.key)">
+
+                        </div>
+                    </td>
+
+                </tr>
+            </table>
+        </div>
+    </div>
+
+
+    <!-- JS files -->
+
+    <!-- Public libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="libs/underscore-min.js"></script>
+    <script src="libs/clipboard.min.js"></script>
+    <script src="libs/isteven/isteven.js"></script>
+
+    <!-- Data files -->
+    <script type="text/javascript" src="data/instrumentGroupData/instrumentGroupData__TG.js"></script>
+    <script type="text/javascript" src="data/instrumentGroupData/instrumentGroupData__W.js"></script>
+    <script type="text/javascript" src="data/timeslotData/timeslotData__W__A.js"></script>
+    <script type="text/javascript" src="data/timeslotData/timeslotData__W__B.js"></script>
+    <script type="text/javascript" src="data/timeslotData/timeslotData__TG__A.js"></script>
+    <script type="text/javascript" src="data/timeslotData/timeslotData__TG__B.js"></script>
+    <script type="text/javascript" src="data/gradeData.js"></script>
+    <script type="text/javascript" src="data/teacherData/teacherData__TG.js"></script>
+    <script type="text/javascript" src="data/teacherData/teacherData__W.js"></script>
+    <script type="text/javascript" src="data/schoolData.js"></script>
+    
+    <!-- Local files -->
+    <script type="text/javascript" src="js/index.js"></script>
+</body
+</html>
