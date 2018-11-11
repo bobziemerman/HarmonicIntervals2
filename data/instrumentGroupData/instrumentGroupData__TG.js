@@ -1,4 +1,18 @@
 var instrumentGroupData__TG = {
+		"beginnerBand": {
+			"name": "B Band",
+			"grades": 4
+		},
+		"intermediateBand": {
+			"name": "I Band",
+			"grades": 9
+		},
+		"intermediateViolins": {
+			"name": "I Viol",
+			"grades": 5
+		},
+	
+		/*
     "purple": {
         "name": "Purple",
         "grades": ["4th"],
@@ -59,5 +73,5 @@ var instrumentGroupData__TG = {
         "grades": ["5th"],
         "teacher": "",
     },
-
+*/
 }

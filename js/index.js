@@ -3,19 +3,16 @@
 
 var app = angular.module('harmonicIntervals', ['isteven-multi-select']);
 app.controller('main', function($scope) {
-    console.log('sanity');
-console.log(gradeData);
-console.log('woodmore teachers:');
-console.log(teacherData__W);
-console.log(schoolData);
+    
+//console.log('sanity');
+//console.log('schoolData:');
+//console.log(schoolData);
 
     $scope.schools = JSON.parse(JSON.stringify(schoolData));
     $scope.school = $scope.schools['tulipGroveA']; //Default to TG
+console.log('$scope.school:');
 console.log($scope.school);
     $scope.teachers = JSON.parse(JSON.stringify(teacherData__TG)); //Default to TG
-    $scope.grades = JSON.parse(JSON.stringify(gradeData));
-    $scope.missedMath = _.values(JSON.parse(JSON.stringify($scope.school.instrumentGroups)));
-console.log($scope.missedMath);
     $scope.computedSchedule = [];
     new ClipboardJS('#js-copy-to-clipboard'); //Set up 'copy to clipboard' element
 
@@ -68,54 +65,71 @@ console.log($scope.missedMath);
 
         return warnings.join('; ');
     }
-
-    $scope.timeslotLevel = function(timeslot, instrumentGroup){
-        var level = 3;
-        var grades = instrumentGroup.grades;
-
-        _.each(timeslot.inactiveGrades, function(grade){
-            if(grades.includes(grade)){
-                level = 0;
-            }
-        });
-        _.each(timeslot.lunchGrades, function(grade){
-            if(grades.includes(grade)){
-                level = 0;
-            }
-        });
-        _.each(timeslot.mathGrades, function(grade){
-            if(grades.includes(grade)){
-                var missed = false;
-                _.each($scope.missedMathState, function(miss){
-                    if(miss.name === instrumentGroup.name){
-                        missed = true;
-                    }
-                });
-
-                if(missed){
-                    level = 0;
-                } else{
-                    level--;
-                }
-            }
-        });
-        _.each(timeslot.peTeachers, function(teacher){
-            if(instrumentGroup.teacher === teacher){
-                level--;
-            }
-        });
-        _.each(timeslot.recessGrades, function(grade){
-            if(grades.includes(grade)){
-                level--;
-            }
-        });
-
-        return level;
+    
+    $scope.groupsAvailable = function(timeslot){
+    	var retValue = '';
+    	if(timeslot && timeslot.busyGrades !== undefined){
+    		if(timeslot.busyGrades === 9){
+    			//do nothing
+    		} else if(timeslot.busyGrades === 0){
+    			var first = true;
+    			_.each($scope.school.instrumentGroups, function(ig){
+    				if(first){
+    					first = false;
+    				} else{
+    					retValue += ', ';
+    				}
+    				retValue += ig.name;
+    			});
+    		} else{
+    			var first = true;
+    			_.each($scope.school.instrumentGroups, function(ig){
+    				if(ig.grades !== 9 && ig.grades !== timeslot.busyGrades){
+        				if(first){
+        					first = false;
+        				} else{
+        					retValue += ', ';
+        				}
+        				retValue += ig.name;
+    				}
+    			});
+    		}
+    	}
+    	return retValue;
+    }
+    
+    /*
+     * Green = 1
+     * Yellow = 2
+     * Red = 3
+     */
+    $scope.openTimeslot = function(day, timeslot, instrumentGroup){
+    	if(timeslot && timeslot.busyGrades !== undefined && instrumentGroup && instrumentGroup.grades){
+    		if(timeslot.busyGrades === 9 || timeslot.busyGrades === instrumentGroup.grades || (instrumentGroup.grades == 9 && timeslot.busyGrades !== 0)){
+    			return 3; //red
+    		} else {
+				if($scope.timeFilled(day, timeslot)){
+					return false; //white?
+				} else if($scope.lessonCount(instrumentGroup.name) >1){
+    				return 2; //yellow
+    			} else{
+    				return 1; //green
+    			}
+    		}
+    	}
+    	return 3; //red
+    }
+    
+    $scope.timeFilled = function(day, timeslot){
+    	if(day && timeslot && $scope.computedSchedule && $scope.computedSchedule[day+timeslot.startTime]){
+    		return Object.values($scope.computedSchedule[day+timeslot.startTime]).includes(true);
+    	}
     }
 
     //Checkbox state evalutation functions
     $scope.checkGrade = function(timeslot, grade){
-        return timeslot.inactiveGrades.includes(grade);
+    	return false;
+        //return timeslot.inactiveGrades.includes(grade);
     };
     $scope.checkAllGrade = function(dayName, grade){
         var allChecked = true;
@@ -129,19 +143,23 @@ console.log($scope.missedMath);
     };
 
     $scope.checkLunch = function(timeslot, grade){
-        return timeslot.lunchGrades.includes(grade);
+    	return false;
+        //return timeslot.lunchGrades.includes(grade);
     };
 
     $scope.checkMath = function(timeslot, grade){
-        return timeslot.mathGrades.includes(grade);
+    	return false;
+        //return timeslot.mathGrades.includes(grade);
     };
 
     $scope.checkPE = function(timeslot, teacher){
-        return timeslot.peTeachers.includes(teacher);
+    	return false;
+        // return timeslot.peTeachers.includes(teacher);
     };
 
     $scope.checkRecess = function(timeslot, grade){
-        return timeslot.recessGrades.includes(grade);
+    	return false;
+        //return timeslot.recessGrades.includes(grade);
     };
 
     //Checkbox toggle functions
@@ -262,19 +280,6 @@ console.log($scope.missedMath);
         return JSON.stringify(arr);
     };
 
-    $scope.notTwice = {};
-    $scope.checkNotTwice = function(){
-        var arr = {};
-        _.each($scope.school.instrumentGroups, function(ig){
-            var count = $scope.lessonCount(ig.name);
-            if(!arr[count]){
-                arr[count] = [];
-            }
-            arr[count].push(ig.name);
-        });
-        $scope.notTwice = arr;
-    }
-
     function isJsonString(str) {
         try {
             JSON.parse(str);
@@ -305,9 +310,10 @@ console.log($scope.missedMath);
     }, true);
 
     //Watch for boxes being checked in color schedule
+    /*
     $scope.$watch('computedSchedule', function(){
-        console.log('fired');
     }, true);
+    */
 
     //Watch for code input
     $scope.$watch('mathGroups', function(){
