@@ -3,10 +3,6 @@
 
 var app = angular.module('harmonicIntervals', ['isteven-multi-select']);
 app.controller('main', function($scope) {
-    
-//console.log('sanity');
-//console.log('schoolData:');
-//console.log(schoolData);
 
     $scope.schools = JSON.parse(JSON.stringify(schoolData));
     $scope.school = $scope.schools['tulipGroveA']; //Default to TG
@@ -68,32 +64,21 @@ console.log($scope.school);
     
     $scope.groupsAvailable = function(timeslot){
     	var retValue = '';
-    	if(timeslot && timeslot.busyGrades !== undefined){
-    		if(timeslot.busyGrades === 9){
-    			//do nothing
-    		} else if(timeslot.busyGrades === 0){
-    			var first = true;
-    			_.each($scope.school.instrumentGroups, function(ig){
-    				if(first){
-    					first = false;
-    				} else{
-    					retValue += ', ';
-    				}
-    				retValue += ig.name;
+    	if(timeslot && timeslot.busyTeachers !== undefined){
+    		_.each($scope.school.instrumentGroups, function(ig){
+    			var groupFree = true;
+    			_.each(timeslot.busyTeachers, function(teacher){
+    				_.each(ig.teachers, function(igTeacher){
+    					if(teacher === igTeacher){
+    						groupFree = false;
+    					}
+    				});
     			});
-    		} else{
-    			var first = true;
-    			_.each($scope.school.instrumentGroups, function(ig){
-    				if(ig.grades !== 9 && ig.grades !== timeslot.busyGrades){
-        				if(first){
-        					first = false;
-        				} else{
-        					retValue += ', ';
-        				}
-        				retValue += ig.name;
-    				}
-    			});
-    		}
+    			
+    			if(groupFree){
+    				retValue += (retValue === '' ? ig.name : ', '+ig.name);
+    			}
+    		});
     	}
     	return retValue;
     }
@@ -102,28 +87,34 @@ console.log($scope.school);
      * Green = 1
      * Yellow = 2
      * Red = 3
+     * White = false
+     * 
+     * Red > Yellow > White > Green
      */
     $scope.openTimeslot = function(day, timeslot, instrumentGroup){
-    	if(timeslot && timeslot.busyGrades !== undefined && instrumentGroup && instrumentGroup.grades){
-    		if(timeslot.busyGrades === 9 || timeslot.busyGrades === instrumentGroup.grades || (instrumentGroup.grades == 9 && timeslot.busyGrades !== 0)){
+    	if(day && timeslot && instrumentGroup && timeslot.busyTeachers !== undefined && instrumentGroup.teachers !== undefined){
+    		//If group is unavailable, mark it as red
+    		if(!$scope.groupsAvailable(timeslot).includes(instrumentGroup.name)){
+    			console.log('available');
     			return 3; //red
-    		} else {
-				if($scope.timeFilled(day, timeslot)){
-					return false; //white?
-				} else if($scope.lessonCount(instrumentGroup.name) >1){
-    				return 2; //yellow
-    			} else{
-    				return 1; //green
-    			}
     		}
+    		
+    		//If this group has already met twice or more, mark them as yellow
+    		if($scope.lessonCount(instrumentGroup.name) >1){
+    			return 2;
+    		}
+    		
+    		//If this timeslot is already filled, mark it as white
+    		if($scope.computedSchedule && $scope.computedSchedule[day+timeslot.startTime]){
+    			return false;
+    		}
+    		
+    		//Otherwise, return green
+    		return 1;
     	}
-    	return 3; //red
-    }
-    
-    $scope.timeFilled = function(day, timeslot){
-    	if(day && timeslot && $scope.computedSchedule && $scope.computedSchedule[day+timeslot.startTime]){
-    		return Object.values($scope.computedSchedule[day+timeslot.startTime]).includes(true);
-    	}
+    	
+    	//If we don't know enough about the timeslot.group, mark it as red
+		return 3; //red
     }
 
     //Checkbox state evalutation functions
