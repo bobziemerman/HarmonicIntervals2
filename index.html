@@ -151,10 +151,10 @@
                 </button>
             </span>
         </div>
-
+        
         <br/>
 
-        <!-- Schedule grade controls -->
+        <!-- Schedule controls -->
         <h5>Customize Schedule:</h5>
         <div>
             <table class="table" ng-repeat="(dayName, day) in school.schedule">
@@ -164,18 +164,8 @@
                         <input type="checkbox"
                                ng-model="days[dayName]" />
                     </td>
-                    <td ng-if="days[dayName]" ng-repeat="(gradeName, grade) in grades">
-                        {{grade.number}}X
-                        <input class=""
-                               type="checkbox"
-                               ng-click="toggleAllGrade(dayName, gradeName)"
-                               ng-checked="checkAllGrade(dayName, gradeName)">
-                    </td>
-                    <td ng-if="days[dayName]" ng-repeat="grade in grades">{{grade.number}}L</td>
-                    <td ng-if="days[dayName]" ng-repeat="grade in grades">{{grade.number}}M</td>
-                    <td ng-if="days[dayName]" ng-repeat="grade in grades">{{grade.number}}R</td>
                     <td ng-if="days[dayName]" ng-repeat="teacher in teachers">
-                        {{teacher.name}} PE
+                        {{teacher.name}}
                     </td>
 
                 </tr>
@@ -183,53 +173,12 @@
                     <td>{{timeslot.startTime}} - {{timeslot.endTime}}</td>
 
                     <!-- Cancel checkboxes -->
-                    <td ng-if="days[dayName]" ng-repeat="(gradeName, grade) in grades">
+                    <td ng-if="days[dayName]" ng-repeat="(teacherName, teacher) in teachers">
                         <div class="form-check">
                             <input class="form-check-input"
                                    type="checkbox"
-                                   ng-click="toggleGrade(dayName, timeslotName, gradeName)"
-                                   ng-checked="checkGrade(timeslot, gradeName)">
-                        </div>
-                    </td>
-                    <!-- Lunch checkboxes -->
-                    <td ng-if="days[dayName]" ng-repeat="(gradeName, grade) in grades">
-                        <div class="form-check">
-                            <input class="form-check-input" 
-                                   type="checkbox" 
-                                   ng-if="!checkGrade(timeslot, gradeName)"
-                                   ng-click="toggleLunch(dayName, timeslotName, gradeName)"
-                                   ng-checked="checkLunch(timeslot, gradeName)">
-                        </div>
-                    </td>
-                    <!-- Math checkboxes -->
-                    <td ng-if="days[dayName]" ng-repeat="(gradeName, grade) in grades">
-                        <div class="form-check">
-                            <input class="form-check-input"
-                                   type="checkbox"
-                                   ng-if="!checkGrade(timeslot, gradeName)"
-                                   ng-click="toggleMath(dayName, timeslotName, gradeName)"
-                                   ng-checked="checkMath(timeslot, gradeName)">
-                         </div>
-                    </td>
-                    <!-- Recess checkboxes -->
-                    <td ng-if="days[dayName]" ng-repeat="(gradeName, grade) in grades">
-                        <div class="form-check">
-                            <input class="form-check-input"
-                                   type="checkbox"
-                                   ng-if="!checkGrade(timeslot, gradeName)"
-                                   ng-click="toggleRecess(dayName, timeslotName, gradeName)"
-                                   ng-checked="checkRecess(timeslot, gradeName)">
-                        </div>
-                    </td>
-                    <!-- PE checkboxes -->
-                    <td ng-if="days[dayName]" ng-repeat="teacher in teachers">
-                       <div class="form-check">
-                            <input class="form-check-input"
-                                   type="checkbox"
-                                   ng-if="!checkGrade(timeslot, teacher.key)"
-                                   ng-click="togglePE(dayName, timeslotName, teacher.key)"
-                                   ng-checked="checkPE(timeslot, teacher.key)">
-
+                                   ng-click="toggleScheduleTeacher(day, timeslot, teacher.key)"
+                                   ng-checked="scheduleCheckTeacher(timeslot, teacher.key)">
                         </div>
                     </td>
 

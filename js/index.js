@@ -95,7 +95,6 @@ console.log($scope.school);
     	if(day && timeslot && instrumentGroup && timeslot.busyTeachers !== undefined && instrumentGroup.teachers !== undefined){
     		//If group is unavailable, mark it as red
     		if(!$scope.groupsAvailable(timeslot).includes(instrumentGroup.name)){
-    			console.log('available');
     			return 3; //red
     		}
     		
@@ -116,42 +115,28 @@ console.log($scope.school);
     	//If we don't know enough about the timeslot.group, mark it as red
 		return 3; //red
     }
-
-    //Checkbox state evalutation functions
-    $scope.checkGrade = function(timeslot, grade){
-    	return false;
-        //return timeslot.inactiveGrades.includes(grade);
-    };
-    $scope.checkAllGrade = function(dayName, grade){
-        var allChecked = true;
-        _.each($scope.school.schedule[dayName], function(timeslot){
-            if(!$scope.checkGrade(timeslot, grade)){
-                allChecked = false;
-            }
-        });
-
-        return allChecked;
-    };
-
-    $scope.checkLunch = function(timeslot, grade){
-    	return false;
-        //return timeslot.lunchGrades.includes(grade);
-    };
-
-    $scope.checkMath = function(timeslot, grade){
-    	return false;
-        //return timeslot.mathGrades.includes(grade);
-    };
-
-    $scope.checkPE = function(timeslot, teacher){
-    	return false;
-        // return timeslot.peTeachers.includes(teacher);
-    };
-
-    $scope.checkRecess = function(timeslot, grade){
-    	return false;
-        //return timeslot.recessGrades.includes(grade);
-    };
+    
+    $scope.toggleScheduleTeacher = function(day, timeslot, teacherKey){
+    	var idx = timeslot.busyTeachers.indexOf(teacherKey);
+    	if(idx > -1){
+    		timeslot.busyTeachers.splice(idx, 1);
+    	} else{
+    		timeslot.busyTeachers.push(teacherKey);
+    	}
+    }
+    
+    $scope.scheduleCheckTeacher = function(timeslot, teacherKey){
+    	var retValue = false;
+    	if(timeslot && teacherKey){
+    		retValue = !(timeslot.busyTeachers.indexOf(teacherKey) > -1);
+    	}
+    	
+    	return retValue;
+    }
+    
+    
+    
+    
 
     //Checkbox toggle functions
     $scope.toggleGrade = function(dayName, timeslotName, gradeName){
@@ -173,70 +158,6 @@ console.log($scope.school);
         });
     };
 
-    $scope.toggleLunch = function(dayName, timeslotName, gradeName){
-        if($scope.school.schedule[dayName][timeslotName].lunchGrades.includes(gradeName)){
-		$scope.school.schedule[dayName][timeslotName].lunchGrades = 
-                    _.without($scope.school.schedule[dayName][timeslotName].lunchGrades, gradeName);
-        } else {
-            $scope.school.schedule[dayName][timeslotName].lunchGrades.push(gradeName);
-        }
-    };
-
-    $scope.toggleMath = function(dayName, timeslotName, gradeName){
-        if($scope.school.schedule[dayName][timeslotName].mathGrades.includes(gradeName)){
-                $scope.school.schedule[dayName][timeslotName].mathGrades =
-                    _.without($scope.school.schedule[dayName][timeslotName].mathGrades, gradeName);
-        } else {
-            $scope.school.schedule[dayName][timeslotName].mathGrades.push(gradeName);
-        }
-    };
-
-    $scope.togglePE = function(dayName, timeslotName, teacher){
-        if($scope.school.schedule[dayName][timeslotName].peTeachers.includes(teacher)){
-                $scope.school.schedule[dayName][timeslotName].peTeachers =
-                    _.without($scope.school.schedule[dayName][timeslotName].peTeachers, teacher);
-        } else {
-            $scope.school.schedule[dayName][timeslotName].peTeachers.push(teacher);
-        }
-    };
-
-    $scope.toggleRecess = function(dayName, timeslotName, gradeName){
-        if($scope.school.schedule[dayName][timeslotName].recessGrades.includes(gradeName)){
-                $scope.school.schedule[dayName][timeslotName].recessGrades =
-                    _.without($scope.school.schedule[dayName][timeslotName].recessGrades, gradeName);
-        } else {
-            $scope.school.schedule[dayName][timeslotName].recessGrades.push(gradeName);
-        }
-    };
-
-
-    $scope.gradeEvents = function(timeslot){
-        var events = [];
-        
-        _.each(timeslot.lunchGrades, function(grade){
-            events.push(grade.substr(0,1)+'L');
-        });
-        _.each(timeslot.mathGrades, function(grade){
-            events.push(grade.substr(0,1)+'M');
-        });
-        _.each(timeslot.peTeachers, function(teacher){
-            _.each(teacher.grades, function(grade){
-                events.push(grade.number+'PE');
-            });
-        });
-        _.each(timeslot.recessGrades, function(grade){
-            events.push(grade.substr(0,1)+'R');
-        });
-
-        events = events.sort(function(a,b){
-            if(a<b) return -1;
-            if(b<a) return 1;
-            return 0;
-        });
-
-        return events.length ? '('+events.join(' ')+')' : '';
-    }
-
     $scope.lessonCount = function(igName){
         var lessonCount = 0;
 
@@ -251,6 +172,7 @@ console.log($scope.school);
         return lessonCount;
     }
 
+    //TODO rewrite
     $scope.missingMath = function(){
         var arr = [];
         _.each(_.keys($scope.school.schedule), function(day){
@@ -283,13 +205,6 @@ console.log($scope.school);
     //Create clipboard button listener
     new ClipboardJS('.btn');
 
-
-    //Initialize Bootstrap tooltips
-    $scope.$watch('school.schedule', function(){
-        $('body').tooltip({selector: '[data-toggle="tooltip"]'});
-    }, true);
-
-
     //Watch for school change
     $scope.$watch('school', function(){
         //Change teachers
@@ -299,12 +214,6 @@ console.log($scope.school);
 
         $scope.missedMath = _.values(JSON.parse(JSON.stringify($scope.school.instrumentGroups)));
     }, true);
-
-    //Watch for boxes being checked in color schedule
-    /*
-    $scope.$watch('computedSchedule', function(){
-    }, true);
-    */
 
     //Watch for code input
     $scope.$watch('mathGroups', function(){
