@@ -1,4 +1,4 @@
-var timeslotData__TG__A = {
+var timeslotData__TG__D1 = {
     'monday': {
         '08:30': {
                 'startTime': '08:30',
@@ -112,12 +112,12 @@ var timeslotData__TG__A = {
         '09:00': {
                 'startTime': '09:00',
                 'endTime': '09:30',
-                'busyTeachers': ["holmes", "meyers"],
+                'busyTeachers': [],
         },
         '09:30': {
                 'startTime': '09:30',
                 'endTime': '10:00',
-                'busyTeachers': [],
+                'busyTeachers': ["holmes", "meyers"],
         },
         '10:00': {
                 'startTime': '10:00',

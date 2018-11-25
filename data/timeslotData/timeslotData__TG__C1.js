@@ -1,4 +1,4 @@
-var timeslotData__TG__A = {
+var timeslotData__TG__C1 = {
     'monday': {
         '08:30': {
                 'startTime': '08:30',
