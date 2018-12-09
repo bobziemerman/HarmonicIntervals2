@@ -22,6 +22,10 @@ table, th, td {
   text-overflow: ellipsis;
 }
 
+.second-check {
+  margin-left: 0px;
+}
+
 
 
 /****************************** Bootstrap overrides **********************************/

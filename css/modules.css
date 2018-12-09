@@ -20,12 +20,20 @@
   background-color: orange;
 }
 
+.bg--light-red {
+  background-color: #F48181;
+}
+
 .bg--red {
   background-color: red;
 }
 
 .bg--black {
   background-color: black;
+}
+
+.bg--white {
+  background-color: white;
 }
 
 .text--green {

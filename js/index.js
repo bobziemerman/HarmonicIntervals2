@@ -10,11 +10,11 @@ console.log('$scope.school:');
 console.log($scope.school);
     $scope.teachers = JSON.parse(JSON.stringify(teacherData__TG)); //Default to TG
     $scope.computedSchedule = [];
-    new ClipboardJS('#js-copy-to-clipboard'); //Set up 'copy to clipboard' element
+    //new ClipboardJS('#js-copy-to-clipboard'); //Set up 'copy to clipboard' element
 
     $scope.days = []; //Allows day toggle
     _.each(_.keys($scope.school.schedule), function(day){
-        $scope.days[day] = true;
+        $scope.days[day] = $scope.school.schedule[day].defaultActive;
     });
 
     $scope.timeslotWarnings = function(timeslot, ig){
@@ -85,35 +85,75 @@ console.log($scope.school);
     
     /*
      * Green = 1
-     * Yellow = 2
-     * Red = 3
-     * White = false
-     * 
-     * Red > Yellow > White > Green
+     * Light Red = 2
+     * Dark Red = 3
      */
     $scope.openTimeslot = function(day, timeslot, instrumentGroup){
+    	var green = 1;
+    	var lightRed = 2;
+    	var red = 3;
+    	
     	if(day && timeslot && instrumentGroup && timeslot.busyTeachers !== undefined && instrumentGroup.teachers !== undefined){
     		//If group is unavailable, mark it as red
     		if(!$scope.groupsAvailable(timeslot).includes(instrumentGroup.name)){
-    			return 3; //red
+    			return red;
     		}
     		
-    		//If this group has already met twice or more, mark them as yellow
+    		//If this group has already met twice or more, mark them as red
     		if($scope.lessonCount(instrumentGroup.name) >1){
-    			return 2;
+    			return red;
     		}
     		
-    		//If this timeslot is already filled, mark it as white
-    		if($scope.computedSchedule && $scope.computedSchedule[day+timeslot.startTime]){
-    			return false;
+    		//If this timeslot is already filled, mark it as red
+    		if($scope.computedSchedule[day+timeslot.startTime]){
+    			return red;
     		}
+    		
+    		//If this group is already assigned for today, mark it as red
+    		var returnRed = false;
+    		_.each(_.keys($scope.computedSchedule), function(scheduleSlot){
+    			if(!scheduleSlot.includes(timeslot.startTime) && scheduleSlot.includes(day)){
+    				if($scope.computedSchedule[scheduleSlot][instrumentGroup.name])
+    					returnRed = true;
+    			}
+    		});
+    		if(returnRed)
+    			return red;
+    		
+    		//If this group has already met at this time this week, mark them as red
+    		_.each(_.keys($scope.computedSchedule), function(scheduleSlot){
+    			if(scheduleSlot.includes(timeslot.startTime) && !scheduleSlot.includes(day)){
+    				if($scope.computedSchedule[scheduleSlot][instrumentGroup.name])
+    					returnRed = true;
+    			}
+    		});
+    		if(returnRed)
+    			return red;
+    		
+    		//If this slot isn't dark red and is a maybe, assign light red
+    		_.each($scope.school.instrumentGroups[instrumentGroup.id].teachers, function(teacher){
+	    		if($scope.school.schedule[day].timeslots[timeslot.startTime].maybeTeachers.indexOf(teacher) > -1){
+	    			returnRed = true;
+	    		}
+    		});
+    		if(returnRed)
+    			return lightRed
     		
     		//Otherwise, return green
-    		return 1;
+    		return green;
     	}
     	
     	//If we don't know enough about the timeslot.group, mark it as red
-		return 3; //red
+		return red;
+    }
+    
+    $scope.toggleScheduleTeacherMaybe = function(day, timeslot, teacherKey){
+    	var idx = timeslot.maybeTeachers.indexOf(teacherKey);
+    	if(idx > -1){
+    		timeslot.maybeTeachers.splice(idx, 1);
+    	} else{
+    		timeslot.maybeTeachers.push(teacherKey);
+    	}
     }
     
     $scope.toggleScheduleTeacher = function(day, timeslot, teacherKey){
@@ -123,6 +163,15 @@ console.log($scope.school);
     	} else{
     		timeslot.busyTeachers.push(teacherKey);
     	}
+    }
+    
+    $scope.scheduleCheckTeacherMaybe = function(timeslot, teacherKey){
+    	var retValue = false;
+    	if(timeslot && teacherKey){
+    		retValue = (timeslot.maybeTeachers.indexOf(teacherKey) > -1);
+    	}
+    	
+    	return retValue;
     }
     
     $scope.scheduleCheckTeacher = function(timeslot, teacherKey){
