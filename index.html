@@ -59,7 +59,7 @@
         <br/>
 
         <!-- Schedule controls -->
-        <h5>Customize Schedule:</h5>
+        <h5>Customize Schedule by Teacher:</h5>
         <div>
             <table class="table" ng-repeat="(dayName, day) in school.schedule">
                 <tr>
@@ -76,19 +76,59 @@
                 <tr ng-repeat="(timeslotName, timeslot) in day.timeslots">
                     <td>{{timeslot.startTime}} - {{timeslot.endTime}}</td>
 
-                    <!-- Cancel checkboxes -->
+                    <!-- Checkboxes -->
                     <td ng-if="days[dayName]" ng-repeat="(teacherName, teacher) in teachers">
                         <span class="form-check">
                             <input class="form-check-input"
                                    type="checkbox"
                                    ng-click="toggleScheduleTeacherMaybe(day, timeslot, teacher.key)"
-                                   ng-checked="(scheduleCheckTeacherMaybe(timeslot, teacher.key) || scheduleCheckTeacher(timeslot, teacher.key))">
+                                   ng-checked="(scheduleCheckTeacherMaybe(timeslot, teacher.key) && scheduleCheckTeacher(timeslot, teacher.key))">
                         </span>
                         <span class="form-check">
                             <input class="form-check-input second-check"
                                    type="checkbox"
                                    ng-click="toggleScheduleTeacher(day, timeslot, teacher.key)"
                                    ng-checked="scheduleCheckTeacher(timeslot, teacher.key)">
+                        </span>
+                    </td>
+
+                </tr>
+            </table>
+        </div>
+        
+        <br/>
+
+        <!-- Schedule controls -->
+        <h5>Customize Schedule by Instrument Group:</h5>
+        <div>
+            <table class="table" ng-repeat="(dayName, day) in school.schedule">
+                <tr>
+                    <td class="capitalize">
+                        {{dayName}}
+                        <input type="checkbox"
+                               ng-model="days[dayName]" />
+                    </td>
+                    <td ng-if="days[dayName]" ng-repeat="(igName, ig) in school.instrumentGroups">
+                        {{ig.name}}
+                    </td>
+
+                </tr>
+                <tr ng-repeat="(timeslotName, timeslot) in day.timeslots">
+                    <td>{{timeslot.startTime}} - {{timeslot.endTime}}</td>
+
+                    <!-- Checkboxes -->
+                    <td ng-if="days[dayName]" ng-repeat="(igName, ig) in school.instrumentGroups">
+                        <span class="form-check">
+                            <input class="form-check-input"
+                                   type="checkbox"
+                                   ng-click="toggleScheduleIGMaybe(day, timeslot, ig)"
+                                   ng-checked="(scheduleCheckIGMaybe(timeslot, ig) && scheduleCheckIG(timeslot, ig))">
+                        </span>
+                        <span class="form-check">
+                            <input class="form-check-input second-check"
+                                   type="checkbox"
+                                   ng-click="toggleScheduleIG(day, timeslot, ig)"
+                                   ng-checked="scheduleCheckIG(timeslot, ig)">
                         </span>
                     </td>
 

@@ -9,6 +9,7 @@ app.controller('main', function($scope) {
 console.log('$scope.school:');
 console.log($scope.school);
     $scope.teachers = JSON.parse(JSON.stringify(teacherData__TG)); //Default to TG
+console.log($scope.teachers);
     $scope.computedSchedule = [];
     //new ClipboardJS('#js-copy-to-clipboard'); //Set up 'copy to clipboard' element
 
@@ -166,9 +167,9 @@ console.log($scope.school);
     }
     
     $scope.scheduleCheckTeacherMaybe = function(timeslot, teacherKey){
-    	var retValue = false;
+    	var retValue = true;
     	if(timeslot && teacherKey){
-    		retValue = (timeslot.maybeTeachers.indexOf(teacherKey) > -1);
+    		retValue = !(timeslot.maybeTeachers.indexOf(teacherKey) > -1);
     	}
     	
     	return retValue;
@@ -179,6 +180,43 @@ console.log($scope.school);
     	if(timeslot && teacherKey){
     		retValue = !(timeslot.busyTeachers.indexOf(teacherKey) > -1);
     	}
+    	
+    	return retValue;
+    }
+    
+    
+    $scope.toggleScheduleIGMaybe = function(day, timeslot, ig){
+    	_.each(ig.teachers, function(teacher){
+    		$scope.toggleScheduleTeacherMaybe(day, timeslot, teacher);
+    	});
+    }
+    
+    $scope.toggleScheduleIG = function(day, timeslot, ig){
+    	_.each(ig.teachers, function(teacher){
+    		$scope.toggleScheduleTeacher(day, timeslot, teacher);
+    	});
+    }
+    
+    $scope.scheduleCheckIGMaybe = function(timeslot, ig){
+    	var retValue = true;
+    	_.each(ig.teachers, function(teacher){
+    		//If any teacher is a maybe, the whole group is
+    		if(!$scope.scheduleCheckTeacherMaybe(timeslot, teacher)){
+    			retValue = false;
+    		}
+    	});
+    	
+    	return retValue;
+    }
+    
+    $scope.scheduleCheckIG = function(timeslot, ig){
+    	var retValue = true;
+    	_.each(ig.teachers, function(teacher){
+    		//If any teacher is unavailable, the whole group is
+    		if(!$scope.scheduleCheckTeacher(timeslot, teacher)){
+    			retValue = false;
+    		}
+    	});
     	
     	return retValue;
     }
