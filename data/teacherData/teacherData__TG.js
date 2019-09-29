@@ -1,22 +1,22 @@
 var teacherData__TG = {
-	"richardson": {
-        "key": "richardson",
+	"BJ": {
+        "key": "BJ",
+        "name": "Blue Jays",
+        "grade": 5
+	},
+	"Retrievers": {
+        "key": "Retrievers",
+        "name": "Retrievers",
+        "grade": 5
+	},
+	"Richardson": {
+        "key": "Richardson",
         "name": "Richardson",
         "grade": 4
 	},
-	"taylor": {
-        "key": "taylor",
+	"Taylor": {
+        "key": "Taylor",
         "name": "Taylor",
         "grade": 4
-	},
-	"holmes": {
-        "key": "holmes",
-        "name": "Holmes",
-        "grade": 5
-	},
-	"meyers": {
-        "key": "meyers",
-        "name": "Meyers",
-        "grade": 5
 	}
 }

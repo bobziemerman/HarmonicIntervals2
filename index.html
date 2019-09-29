@@ -32,7 +32,6 @@
             </div>
 
             <!-- Last week's math -->
-            <!--
             <div class="col-5">
                 <div>
                     <h5>Did anyone miss math last week? </h5>
@@ -53,7 +52,6 @@
                         helper-elements=""></span>
                 </div>
             </div>
-            -->
         </div>
 
         <br/>
@@ -99,7 +97,7 @@
         <br/>
 
         <!-- Schedule controls -->
-        <h5>Customize Schedule by Instrument Group:</h5>
+        <!--h5>Customize Schedule by Instrument Group:</h5>
         <div>
             <table class="table" ng-repeat="(dayName, day) in school.schedule">
                 <tr>
@@ -116,7 +114,6 @@
                 <tr ng-repeat="(timeslotName, timeslot) in day.timeslots">
                     <td>{{timeslot.startTime}} - {{timeslot.endTime}}</td>
 
-                    <!-- Checkboxes -->
                     <td ng-if="days[dayName]" ng-repeat="(igName, ig) in school.instrumentGroups">
                         <span class="form-check">
                             <input class="form-check-input"
@@ -134,7 +131,7 @@
 
                 </tr>
             </table>
-        </div>
+        </div-->
         
         <br/>
 
@@ -256,10 +253,6 @@
     <script type="text/javascript" src="data/instrumentGroupData/instrumentGroupData__TG.js"></script>
     <script type="text/javascript" src="data/timeslotData/timeslotData__TG__A.js"></script>
     <script type="text/javascript" src="data/timeslotData/timeslotData__TG__B.js"></script>
-    <script type="text/javascript" src="data/timeslotData/timeslotData__TG__C1.js"></script>
-    <script type="text/javascript" src="data/timeslotData/timeslotData__TG__C2.js"></script>
-    <script type="text/javascript" src="data/timeslotData/timeslotData__TG__D1.js"></script>
-    <script type="text/javascript" src="data/timeslotData/timeslotData__TG__D2.js"></script>
     <script type="text/javascript" src="data/teacherData/teacherData__TG.js"></script>
     <script type="text/javascript" src="data/schoolData.js"></script>
     

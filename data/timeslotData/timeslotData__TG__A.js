@@ -5,20 +5,20 @@ var timeslotData__TG__A = {
 				'08:30': {
 					'startTime': '08:30',
 					'endTime': '09:00',
-					'busyTeachers': ["richardson", "holmes"], 
-					'maybeTeachers': []
+					'busyTeachers': [], 
+					'maybeTeachers': ['BJ','Retrievers','Richardson']
 				},
 				'09:00': {
 					'startTime': '09:00',
 					'endTime': '09:30',
-					'busyTeachers': ["meyers", "taylor"],
-					'maybeTeachers': []
+					'busyTeachers': [],
+					'maybeTeachers': ['BJ','Retrievers','Taylor']
 				},
 				'09:30': {
 					'startTime': '09:30',
 					'endTime': '10:00',
 					'busyTeachers': [], 
-					'maybeTeachers': []
+					'maybeTeachers': ['BJ','Retrievers']
 				},
 				'10:00': {
 					'startTime': '10:00',
@@ -30,13 +30,13 @@ var timeslotData__TG__A = {
 					'startTime': '10:30',
 					'endTime': '11:00',
 					'busyTeachers': [],
-					'maybeTeachers': []
+					'maybeTeachers': ['Richardson','Taylor']
 				},
 				'11:00': {
 					'startTime': '11:00',
 					'endTime': '11:30',
 					'busyTeachers': [],
-					'maybeTeachers': []
+					'maybeTeachers': ['Richardson','Taylor']
 				},
 				'11:40': {
 					'startTime': '11:40',
@@ -47,7 +47,7 @@ var timeslotData__TG__A = {
 				'12:45': {
 					'startTime': '12:45',
 					'endTime': '1:15',
-					'busyTeachers': ["richardson", "taylor"],
+					'busyTeachers': ['Richardson','Taylor'],
 					'maybeTeachers': []
 				},
 				'13:15': {
@@ -59,7 +59,7 @@ var timeslotData__TG__A = {
 				'13:45': {
 					'startTime': '13:45',
 					'endTime': '14:15',
-					'busyTeachers': ["holmes", "meyers"], 
+					'busyTeachers': ['BJ','Retrievers'], 
 					'maybeTeachers': []
 				}
 			}
@@ -70,49 +70,49 @@ var timeslotData__TG__A = {
 				'08:30': {
 					'startTime': '08:30',
 					'endTime': '09:00',
-					'busyTeachers': ["richardson", "taylor"],
+					'busyTeachers': [], 
 					'maybeTeachers': []
 				},
 				'09:00': {
 					'startTime': '09:00',
 					'endTime': '09:30',
-					'busyTeachers': ["holmes", "meyers"], 
+					'busyTeachers': [],
 					'maybeTeachers': []
 				},
 				'09:30': {
 					'startTime': '09:30',
 					'endTime': '10:00',
-					'busyTeachers': [],
+					'busyTeachers': [], 
 					'maybeTeachers': []
 				},
 				'10:00': {
 					'startTime': '10:00',
 					'endTime': '10:30',
-					'busyTeachers': ["richardson"],
+					'busyTeachers': [],
 					'maybeTeachers': []
 				},
 				'10:30': {
 					'startTime': '10:30',
 					'endTime': '11:00',
-					'busyTeachers': ["richardson"], 
-					'maybeTeachers': []
+					'busyTeachers': [],
+					'maybeTeachers': ['Richardson','Taylor']
 				},
 				'11:00': {
 					'startTime': '11:00',
 					'endTime': '11:30',
-					'busyTeachers': ["taylor"],
-					'maybeTeachers': []
+					'busyTeachers': [],
+					'maybeTeachers': ['Richardson','Taylor']
 				},
 				'11:40': {
 					'startTime': '11:40',
 					'endTime': '12:10',
-					'busyTeachers': ["taylor"], 
+					'busyTeachers': [],
 					'maybeTeachers': []
 				},
 				'12:45': {
 					'startTime': '12:45',
 					'endTime': '1:15',
-					'busyTeachers': ["richardson", "taylor"], 
+					'busyTeachers': ['Richardson','Taylor'],
 					'maybeTeachers': []
 				},
 				'13:15': {
@@ -124,7 +124,7 @@ var timeslotData__TG__A = {
 				'13:45': {
 					'startTime': '13:45',
 					'endTime': '14:15',
-					'busyTeachers': ["holmes", "meyers"], 
+					'busyTeachers': ['BJ','Retrievers'], 
 					'maybeTeachers': []
 				}
 			}
@@ -135,19 +135,19 @@ var timeslotData__TG__A = {
 				'08:30': {
 					'startTime': '08:30',
 					'endTime': '09:00',
-					'busyTeachers': ["richardson", "taylor"],
-					'maybeTeachers': []
+					'busyTeachers': [], 
+					'maybeTeachers': ['BJ','Retrievers']
 				},
 				'09:00': {
 					'startTime': '09:00',
 					'endTime': '09:30',
-					'busyTeachers': ["holmes", "meyers"], 
-					'maybeTeachers': []
+					'busyTeachers': [],
+					'maybeTeachers': ['BJ','Retrievers']
 				},
 				'09:30': {
 					'startTime': '09:30',
 					'endTime': '10:00',
-					'busyTeachers': [],
+					'busyTeachers': [], 
 					'maybeTeachers': []
 				},
 				'10:00': {
@@ -160,36 +160,36 @@ var timeslotData__TG__A = {
 					'startTime': '10:30',
 					'endTime': '11:00',
 					'busyTeachers': [],
-					'maybeTeachers': []
+					'maybeTeachers': ['Richardson','Taylor']
 				},
 				'11:00': {
 					'startTime': '11:00',
 					'endTime': '11:30',
-					'busyTeachers': ["meyers"],
-					'maybeTeachers': []
+					'busyTeachers': [],
+					'maybeTeachers': ['Richardson','Taylor']
 				},
 				'11:40': {
 					'startTime': '11:40',
 					'endTime': '12:10',
-					'busyTeachers': ["meyers"], 
+					'busyTeachers': [],
 					'maybeTeachers': []
 				},
 				'12:45': {
 					'startTime': '12:45',
 					'endTime': '1:15',
-					'busyTeachers': ["richardson", "taylor", "holmes"],
+					'busyTeachers': ['Richardson','Taylor'],
 					'maybeTeachers': []
 				},
 				'13:15': {
 					'startTime': '13:15',
 					'endTime': '13:45',
-					'busyTeachers': ["holmes"],
+					'busyTeachers': [], 
 					'maybeTeachers': []
 				},
 				'13:45': {
 					'startTime': '13:45',
 					'endTime': '14:15',
-					'busyTeachers': ["holmes", "meyers"], 
+					'busyTeachers': ['BJ','Retrievers'], 
 					'maybeTeachers': []
 				}
 			}
@@ -200,19 +200,19 @@ var timeslotData__TG__A = {
 				'08:30': {
 					'startTime': '08:30',
 					'endTime': '09:00',
-					'busyTeachers': ["richardson", "holmes"],
+					'busyTeachers': [], 
 					'maybeTeachers': []
 				},
 				'09:00': {
 					'startTime': '09:00',
 					'endTime': '09:30',
-					'busyTeachers': ["meyers", "taylor"],
+					'busyTeachers': [],
 					'maybeTeachers': []
 				},
 				'09:30': {
 					'startTime': '09:30',
 					'endTime': '10:00',
-					'busyTeachers': [],
+					'busyTeachers': [], 
 					'maybeTeachers': []
 				},
 				'10:00': {
@@ -224,14 +224,14 @@ var timeslotData__TG__A = {
 				'10:30': {
 					'startTime': '10:30',
 					'endTime': '11:00',
-					'busyTeachers': [], 
-					'maybeTeachers': []
+					'busyTeachers': [],
+					'maybeTeachers': ['Richardson','Taylor']
 				},
 				'11:00': {
 					'startTime': '11:00',
 					'endTime': '11:30',
-					'busyTeachers': [], 
-					'maybeTeachers': []
+					'busyTeachers': [],
+					'maybeTeachers': ['Richardson','Taylor']
 				},
 				'11:40': {
 					'startTime': '11:40',
@@ -242,7 +242,7 @@ var timeslotData__TG__A = {
 				'12:45': {
 					'startTime': '12:45',
 					'endTime': '1:15',
-					'busyTeachers': ["richardson", "taylor"], 
+					'busyTeachers': ['Richardson','Taylor'],
 					'maybeTeachers': []
 				},
 				'13:15': {
@@ -254,7 +254,7 @@ var timeslotData__TG__A = {
 				'13:45': {
 					'startTime': '13:45',
 					'endTime': '14:15',
-					'busyTeachers': ["holmes", "meyers"],
+					'busyTeachers': ['BJ','Retrievers'], 
 					'maybeTeachers': []
 				}
 			}
@@ -265,61 +265,61 @@ var timeslotData__TG__A = {
 				'08:30': {
 					'startTime': '08:30',
 					'endTime': '09:00',
-					'busyTeachers': ["richardson", "taylor"], 
-					'maybeTeachers': []
+					'busyTeachers': [], 
+					'maybeTeachers': ['BJ','Retrievers','Richardson','Taylor']
 				},
 				'09:00': {
 					'startTime': '09:00',
 					'endTime': '09:30',
-					'busyTeachers': ["holmes", "meyers"],
-					'maybeTeachers': []
+					'busyTeachers': [],
+					'maybeTeachers': ['BJ']
 				},
 				'09:30': {
 					'startTime': '09:30',
 					'endTime': '10:00',
-					'busyTeachers': [],
-					'maybeTeachers': []
+					'busyTeachers': [], 
+					'maybeTeachers': ['Retrievers']
 				},
 				'10:00': {
 					'startTime': '10:00',
 					'endTime': '10:30',
-					'busyTeachers': [], 
-					'maybeTeachers': []
+					'busyTeachers': [],
+					'maybeTeachers': ['BJ','Retrievers']
 				},
 				'10:30': {
 					'startTime': '10:30',
 					'endTime': '11:00',
-					'busyTeachers': [], 
-					'maybeTeachers': []
+					'busyTeachers': [],
+					'maybeTeachers': ['Richardson','Taylor']
 				},
 				'11:00': {
 					'startTime': '11:00',
 					'endTime': '11:30',
-					'busyTeachers': [], 
-					'maybeTeachers': []
+					'busyTeachers': [],
+					'maybeTeachers': ['Richardson','Taylor']
 				},
 				'11:40': {
 					'startTime': '11:40',
 					'endTime': '12:10',
-					'busyTeachers': [], 
+					'busyTeachers': [],
 					'maybeTeachers': []
 				},
 				'12:45': {
 					'startTime': '12:45',
 					'endTime': '1:15',
-					'busyTeachers': ["richardson", "taylor"],
+					'busyTeachers': ['Richardson','Taylor'],
 					'maybeTeachers': []
 				},
 				'13:15': {
 					'startTime': '13:15',
 					'endTime': '13:45',
-					'busyTeachers': [],
+					'busyTeachers': [], 
 					'maybeTeachers': []
 				},
 				'13:45': {
 					'startTime': '13:45',
 					'endTime': '14:15',
-					'busyTeachers': ["holmes", "meyers"],
+					'busyTeachers': ['BJ','Retrievers'], 
 					'maybeTeachers': []
 				}
 			}
