@@ -1,46 +1,46 @@
 var instrumentGroupData__TG = {
     "bflute": {
-    	"id": "bflute"
+    	"id": "bflute",
         "name": "B Flute",
         "teachers": ["Richardson","Taylor"],
     },
     "bclarinet": {
-    	"id": "bclarinet"
+    	"id": "bclarinet",
         "name": "B Clarinet",
         "teachers": ["Richardson","Taylor"],
     },
     "basax": {
-    	"id": "basax"
+    	"id": "basax",
         "name": "B A Sax",
         "teachers": ["Richardson","Taylor"],
     },
     "btrumpet": {
-    	"id": "btrumpet"
+    	"id": "btrumpet",
         "name": "B Trumpet",
         "teachers": ["Richardson","Taylor","Holmes"],
     },
     "blbrass": {
-    	"id": "blbrass"
+    	"id": "blbrass",
         "name": "B L Brass",
         "teachers": ["Richardson","Taylor"],
     },
     "bviolin": {
-    	"id": "bviolin"
+    	"id": "bviolin",
         "name": "B Violin",
         "teachers": ["Richardson","Taylor","Retrievers"],
     },
     "bviola": {
-    	"id": "bviola"
+    	"id": "bviola",
         "name": "B Viola",
         "teachers": ["Richardson","Taylor","Retrievers"],
     },
     "bcbp": {
-    	"id": "bcbp"
+    	"id": "bcbp",
         "name": "B CBP",
         "teachers": ["BJ"],
     },
     "istrings": {
-    	"id": "istrings"
+    	"id": "istrings",
         "name": "I Strings",
         "teachers": ["BJ","Retrievers"],
     },
