@@ -16,7 +16,7 @@ table, th, td {
 }
 
 .color-table td.group-name {
-  max-width: 65px;
+  max-width: 75px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
