@@ -18,12 +18,12 @@ var teacherData__W = {
         "key": "Davison",
         "name": "Davison",
         "grade": 4
-	}
+	},
 	"Jenkins": {
         "key": "Jenkins",
         "name": "Jenkins",
         "grade": 4
-	}
+	},
 	"LaDue": {
         "key": "LaDue",
         "name": "LaDue",

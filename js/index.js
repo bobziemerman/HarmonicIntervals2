@@ -5,7 +5,7 @@ var app = angular.module('harmonicIntervals', ['isteven-multi-select']);
 app.controller('main', function($scope) {
 
     $scope.schools = JSON.parse(JSON.stringify(schoolData));
-    $scope.school = $scope.schools['tulipGroveA']; //Default to TG
+    $scope.school = $scope.schools['tulipGrove']; //Default to TG
 console.log('$scope.school:');
 console.log($scope.school);
     $scope.teachers = JSON.parse(JSON.stringify(teacherData__TG)); //Default to TG
