@@ -219,13 +219,13 @@ var timeslotData__W__A = {
 					'startTime': '10:00',
 					'endTime': '10:30',
 					'busyTeachers': [], 
-					'maybeTeachers': ["Baker","Jones","Muhammad","Davison","LaDue"]
+					'maybeTeachers': ["Baker","Jones","Muhammad","Jenkins","Davison","LaDue"]
 				},
 				'10:30': {
 					'startTime': '10:30',
 					'endTime': '11:00',
 					'busyTeachers': [], 
-					'maybeTeachers': ["Davison","LaDue"]
+					'maybeTeachers': ["Davison","LaDue","Jenkins"]
 				},
 				'11:00': {
 					'startTime': '11:00',
@@ -284,13 +284,13 @@ var timeslotData__W__A = {
 					'startTime': '10:00',
 					'endTime': '10:30',
 					'busyTeachers': [], 
-					'maybeTeachers': ["Baker","Jones","Muhammad","Davison","Jenkins","LaDue"]
+					'maybeTeachers': ["Baker","Jones","Muhammad","Davison","LaDue"]
 				},
 				'10:30': {
 					'startTime': '10:30',
 					'endTime': '11:00',
 					'busyTeachers': [], 
-					'maybeTeachers': ["Davison","Jenkins","LaDue"]
+					'maybeTeachers': ["Davison","LaDue"]
 				},
 				'11:00': {
 					'startTime': '11:00',

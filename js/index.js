@@ -299,6 +299,7 @@ console.log($scope.teachers);
             JSON.parse(JSON.stringify(teacherData__W)) : 
             JSON.parse(JSON.stringify(teacherData__TG)); 
 
+        $scope.teachers = teacherData;
         $scope.missedMath = _.values(JSON.parse(JSON.stringify($scope.school.instrumentGroups)));
     }, true);
 
