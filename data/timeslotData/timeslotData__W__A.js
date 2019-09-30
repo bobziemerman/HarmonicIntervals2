@@ -1,4 +1,4 @@
-var timeslotData__TG__B = {
+var timeslotData__W__A = {
 		'monday': {
 			'defaultActive': false,
 			'timeslots':{
