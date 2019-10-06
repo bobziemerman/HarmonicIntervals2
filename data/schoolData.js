@@ -4,6 +4,11 @@ var schoolData = {
 	        "schedule": JSON.parse(JSON.stringify(timeslotData__TG)),
 	        "instrumentGroups": JSON.parse(JSON.stringify(instrumentGroupData__TG)),
 	    },
+	    "tulipGroveRed": {
+	        "name": "Tulip Grove Red",
+	        "schedule": JSON.parse(JSON.stringify(timeslotData__TG__Red)),
+	        "instrumentGroups": JSON.parse(JSON.stringify(instrumentGroupData__TG)),
+	    },
 	    "woodmoreA": {
 	        "name": "Woodmore A",
 	        "schedule": JSON.parse(JSON.stringify(timeslotData__W__A)),

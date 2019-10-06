@@ -20,20 +20,11 @@ console.log($scope.teachers);
 
     $scope.timeslotWarnings = function(timeslot, ig){
         var warnings = [];
-        var grades = ig.grades;
-
-        _.each(timeslot.inactiveGrades, function(grade){
-            if(grades.includes(grade)){
-                warnings.push(grade + ' grade not allowed now');
-            }
-        });
-        _.each(timeslot.lunchGrades, function(grade){
-            if(grades.includes(grade)){
-                warnings.push(grade + ' grade has lunch');
-            }
-        });
-        _.each(timeslot.mathGrades, function(grade){
-            if(grades.includes(grade)){
+        var teachers = ig.teachers;
+        
+        //Math 2 weeks
+        _.each(timeslot.mathTeachers, function(teacher){
+            if(teachers.includes(teacher)){
                 var missed = false;
                 _.each($scope.missedMathState, function(miss){
                     if(miss.name === ig.name){
@@ -44,19 +35,37 @@ console.log($scope.teachers);
                 if(missed){
                     warnings.push(ig.name+" cannot miss math two weeks in a row");
                 } else {
-                    warnings.push(grade + ' grade has math');
+                    warnings.push($scope.teachers[teacher].name + " has math");
                 }
                 
             }
         });
-        _.each(timeslot.peTeachers, function(teacher){
-            if(ig.teacher === teacher){
-                warnings.push($scope.teachers[teacher].name + "'s class has PE");
+        
+        //PE
+        _.each(timeslot.PETeachers, function(teacher){
+            if(ig.teachers.includes(teacher)){
+                warnings.push($scope.teachers[teacher].name + " has PE");
             }
         });
-        _.each(timeslot.recessGrades, function(grade){
-            if(grades.includes(grade)){
-                warnings.push(grade + ' grade has recess');
+        
+        //Music
+        _.each(timeslot.musicTeachers, function(teacher){
+            if(ig.teachers.includes(teacher)){
+                warnings.push($scope.teachers[teacher].name + " has music");
+            }
+        });
+        
+        //Art
+        _.each(timeslot.artTeachers, function(teacher){
+            if(ig.teachers.includes(teacher)){
+                warnings.push($scope.teachers[teacher].name + " has art");
+            }
+        });
+        
+        //Recess
+        _.each(timeslot.recessTeachers, function(teacher){
+            if(teachers.includes(teacher)){
+                warnings.push($scope.teachers[teacher].name + " has recess");
             }
         });
 
@@ -64,11 +73,17 @@ console.log($scope.teachers);
     }
     
     $scope.groupsAvailable = function(timeslot){
-    	var retValue = '';
-    	if(timeslot && timeslot.busyTeachers !== undefined){
+    	var free = []
+    	var recess = []
+    	var math = []
+    	var pe = []
+    	var music = []
+
+    	//Recess
+    	if(timeslot && timeslot.recessTeachers !== undefined){
     		_.each($scope.school.instrumentGroups, function(ig){
     			var groupFree = true;
-    			_.each(timeslot.busyTeachers, function(teacher){
+    			_.each(timeslot.recessTeachers, function(teacher){
     				_.each(ig.teachers, function(igTeacher){
     					if(teacher === igTeacher){
     						groupFree = false;
@@ -76,27 +91,90 @@ console.log($scope.teachers);
     				});
     			});
     			
-    			if(groupFree){
-    				retValue += (retValue === '' ? ig.name : ', '+ig.name);
+    			if(!groupFree){
+    				recess.push(ig.name)
     			}
     		});
     	}
-    	return retValue;
+    	//Math
+    	if(timeslot && timeslot.mathTeachers !== undefined){
+    		_.each($scope.school.instrumentGroups, function(ig){
+    			var groupFree = true;
+    			_.each(timeslot.mathTeachers, function(teacher){
+    				_.each(ig.teachers, function(igTeacher){
+    					if(teacher === igTeacher){
+    						groupFree = false;
+    					}
+    				});
+    			});
+    			
+    			if(!groupFree && !recess.includes(ig.name)){
+    				math.push(ig.name)
+    			}
+    		});
+    	}
+    	//PE
+    	if(timeslot && timeslot.PETeachers !== undefined){
+    		_.each($scope.school.instrumentGroups, function(ig){
+    			var groupFree = true;
+    			_.each(timeslot.PETeachers, function(teacher){
+    				_.each(ig.teachers, function(igTeacher){
+    					if(teacher === igTeacher){
+    						groupFree = false;
+    					}
+    				});
+    			});
+    			
+    			if(!groupFree && !recess.includes(ig.name) && !math.includes(ig.name)){
+    				pe.push(ig.name)
+    			}
+    		});
+    	}
+    	//Music
+    	if(timeslot && timeslot.musicTeachers !== undefined){
+    		_.each($scope.school.instrumentGroups, function(ig){
+    			var groupFree = true;
+    			_.each(timeslot.musicTeachers, function(teacher){
+    				_.each(ig.teachers, function(igTeacher){
+    					if(teacher === igTeacher){
+    						groupFree = false;
+    					}
+    				});
+    			});
+    			
+    			if(!groupFree && !recess.includes(ig.name) && !math.includes(ig.name) && !pe.includes(ig.name)){
+    				music.push(ig.name)
+    			}
+    		});
+    	}
+    	//Free
+    	if(timeslot && timeslot.musicTeachers !== undefined){
+    		_.each($scope.school.instrumentGroups, function(ig){
+    			if(!recess.includes(ig.name) && !math.includes(ig.name) && !pe.includes(ig.name) && !music.includes(ig.name)){
+    				free.push(ig.name)
+    			}
+    		});
+    	}
+    	
+    	return {'free': free, 'music': music, 'pe': pe, 'math': math, 'recess': recess}
     }
-    
-    /*
-     * Green = 1
-     * Light Red = 2
-     * Dark Red = 3
-     */
+
     $scope.openTimeslot = function(day, timeslot, instrumentGroup){
     	var green = 1;
-    	var lightRed = 2;
-    	var red = 3;
+    	var blue = 2;
+    	var orange = 3;
+    	var lightRed = 4;
+    	var red = 5;
     	
-    	if(day && timeslot && instrumentGroup && timeslot.busyTeachers !== undefined && instrumentGroup.teachers !== undefined){
-    		//If group is unavailable, mark it as red
-    		if(!$scope.groupsAvailable(timeslot).includes(instrumentGroup.name)){
+    	if(day && timeslot && instrumentGroup && instrumentGroup.teachers !== undefined){
+    		//If group is in recess, mark it as red
+    		var returnColor = false;
+    		_.each($scope.school.instrumentGroups[instrumentGroup.id].teachers, function(teacher){
+	    		if($scope.school.schedule[day].timeslots[timeslot.startTime].recessTeachers.includes(teacher)){
+	    			returnColor = true;
+	    		}
+    		});
+    		if(returnColor){
     			return red;
     		}
     		
@@ -111,34 +189,60 @@ console.log($scope.teachers);
     		}
     		
     		//If this group is already assigned for today, mark it as red
-    		var returnRed = false;
+    		returnColor = false;
     		_.each(_.keys($scope.computedSchedule), function(scheduleSlot){
     			if(!scheduleSlot.includes(timeslot.startTime) && scheduleSlot.includes(day)){
     				if($scope.computedSchedule[scheduleSlot][instrumentGroup.name])
-    					returnRed = true;
+    					returnColor = true;
     			}
     		});
-    		if(returnRed)
+    		if(returnColor)
     			return red;
     		
     		//If this group has already met at this time this week, mark them as red
+    		returnColor = false;
     		_.each(_.keys($scope.computedSchedule), function(scheduleSlot){
     			if(scheduleSlot.includes(timeslot.startTime) && !scheduleSlot.includes(day)){
     				if($scope.computedSchedule[scheduleSlot][instrumentGroup.name])
-    					returnRed = true;
+    					returnColor = true;
     			}
     		});
-    		if(returnRed)
+    		if(returnColor){
     			return red;
+    		}
     		
-    		//If this slot isn't dark red and is a maybe, assign light red
+    		//If this group is in math, assign light red
     		_.each($scope.school.instrumentGroups[instrumentGroup.id].teachers, function(teacher){
-	    		if($scope.school.schedule[day].timeslots[timeslot.startTime].maybeTeachers.indexOf(teacher) > -1){
-	    			returnRed = true;
+	    		if($scope.school.schedule[day].timeslots[timeslot.startTime].mathTeachers.includes(teacher)){
+	    			returnColor = true;
 	    		}
     		});
-    		if(returnRed)
+    		if(returnColor){
     			return lightRed
+    		}
+    		
+    		//If this group is in PE, assign orange
+    		_.each($scope.school.instrumentGroups[instrumentGroup.id].teachers, function(teacher){
+	    		if($scope.school.schedule[day].timeslots[timeslot.startTime].PETeachers.includes(teacher)){
+	    			returnColor = true;
+	    		}
+    		});
+    		if(returnColor){
+    			return orange
+    		}
+    		
+    		//If this group is in music or art, assign blue
+    		_.each($scope.school.instrumentGroups[instrumentGroup.id].teachers, function(teacher){
+	    		if($scope.school.schedule[day].timeslots[timeslot.startTime].musicTeachers.includes(teacher)){
+	    			returnColor = true;
+	    		}
+	    		if($scope.school.schedule[day].timeslots[timeslot.startTime].artTeachers.includes(teacher)){
+	    			returnColor = true;
+	    		}
+    		});
+    		if(returnColor){
+    			return blue
+    		}
     		
     		//Otherwise, return green
     		return green;
@@ -148,102 +252,14 @@ console.log($scope.teachers);
 		return red;
     }
     
-    $scope.toggleScheduleTeacherMaybe = function(day, timeslot, teacherKey){
-    	var idx = timeslot.maybeTeachers.indexOf(teacherKey);
+    $scope.toggleSchedule = function(subject, teacherKey){
+    	var idx = subject.indexOf(teacherKey);
     	if(idx > -1){
-    		timeslot.maybeTeachers.splice(idx, 1);
+    		subject.splice(idx, 1);
     	} else{
-    		timeslot.maybeTeachers.push(teacherKey);
+    		subject.push(teacherKey);
     	}
     }
-    
-    $scope.toggleScheduleTeacher = function(day, timeslot, teacherKey){
-    	var idx = timeslot.busyTeachers.indexOf(teacherKey);
-    	if(idx > -1){
-    		timeslot.busyTeachers.splice(idx, 1);
-    	} else{
-    		timeslot.busyTeachers.push(teacherKey);
-    	}
-    }
-    
-    $scope.scheduleCheckTeacherMaybe = function(timeslot, teacherKey){
-    	var retValue = true;
-    	if(timeslot && teacherKey){
-    		retValue = !(timeslot.maybeTeachers.indexOf(teacherKey) > -1);
-    	}
-    	
-    	return retValue;
-    }
-    
-    $scope.scheduleCheckTeacher = function(timeslot, teacherKey){
-    	var retValue = false;
-    	if(timeslot && teacherKey){
-    		retValue = !(timeslot.busyTeachers.indexOf(teacherKey) > -1);
-    	}
-    	
-    	return retValue;
-    }
-    
-    
-    $scope.toggleScheduleIGMaybe = function(day, timeslot, ig){
-    	_.each(ig.teachers, function(teacher){
-    		$scope.toggleScheduleTeacherMaybe(day, timeslot, teacher);
-    	});
-    }
-    
-    $scope.toggleScheduleIG = function(day, timeslot, ig){
-    	_.each(ig.teachers, function(teacher){
-    		$scope.toggleScheduleTeacher(day, timeslot, teacher);
-    	});
-    }
-    
-    $scope.scheduleCheckIGMaybe = function(timeslot, ig){
-    	var retValue = true;
-    	_.each(ig.teachers, function(teacher){
-    		//If any teacher is a maybe, the whole group is
-    		if(!$scope.scheduleCheckTeacherMaybe(timeslot, teacher)){
-    			retValue = false;
-    		}
-    	});
-    	
-    	return retValue;
-    }
-    
-    $scope.scheduleCheckIG = function(timeslot, ig){
-    	var retValue = true;
-    	_.each(ig.teachers, function(teacher){
-    		//If any teacher is unavailable, the whole group is
-    		if(!$scope.scheduleCheckTeacher(timeslot, teacher)){
-    			retValue = false;
-    		}
-    	});
-    	
-    	return retValue;
-    }
-    
-    
-    
-    
-
-    //Checkbox toggle functions
-    $scope.toggleGrade = function(dayName, timeslotName, gradeName){
-        if($scope.school.schedule[dayName][timeslotName].inactiveGrades.includes(gradeName)){
-                $scope.school.schedule[dayName][timeslotName].inactiveGrades =
-                    _.without($scope.school.schedule[dayName][timeslotName].inactiveGrades, gradeName);
-        } else {
-            $scope.school.schedule[dayName][timeslotName].inactiveGrades.push(gradeName);
-        }
-    };
-    $scope.toggleAllGrade = function(dayName, gradeName){
-        var allChecked = $scope.checkAllGrade(dayName, gradeName);
-        _.each($scope.school.schedule[dayName], function(timeslot){
-            if(allChecked){
-                timeslot.inactiveGrades = _.without(timeslot.inactiveGrades, gradeName);
-            } else {
-                timeslot.inactiveGrades.push(gradeName);
-            }
-        });
-    };
 
     $scope.lessonCount = function(igName){
         var lessonCount = 0;
@@ -260,6 +276,7 @@ console.log($scope.teachers);
     }
 
     //TODO rewrite
+    /*
     $scope.missingMath = function(){
         var arr = [];
         _.each(_.keys($scope.school.schedule), function(day){
@@ -279,6 +296,7 @@ console.log($scope.teachers);
         });
         return JSON.stringify(arr);
     };
+    */
 
     function isJsonString(str) {
         try {
@@ -290,15 +308,21 @@ console.log($scope.teachers);
     }
 
     //Create clipboard button listener
-    new ClipboardJS('.btn');
+    //new ClipboardJS('.btn');
 
     //Watch for school change
     $scope.$watch('school', function(){
         //Change teachers
-        teacherData = $scope.school.name.includes('Woodmore') ? 
+    	$scope.teachers = $scope.school.name.includes('Woodmore') ? 
             JSON.parse(JSON.stringify(teacherData__W)) : 
             JSON.parse(JSON.stringify(teacherData__TG)); 
 
+        //Toggle new default days
+        _.each(_.keys($scope.school.schedule), function(day){
+            $scope.days[day] = $scope.school.schedule[day].defaultActive;
+        });
+        
+        //TODO do missed math
         $scope.missedMath = _.values(JSON.parse(JSON.stringify($scope.school.instrumentGroups)));
     }, true);
 

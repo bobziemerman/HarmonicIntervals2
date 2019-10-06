@@ -55,7 +55,7 @@
         </div>
 
         <br/>
-
+        
         <!-- Schedule controls -->
         <h5>Customize Schedule by Teacher:</h5>
         <div>
@@ -76,62 +76,35 @@
 
                     <!-- Checkboxes -->
                     <td ng-if="days[dayName]" ng-repeat="(teacherName, teacher) in teachers">
-                        <span class="form-check">
-                            <input class="form-check-input"
+                        <span>
+                            Re: <input
                                    type="checkbox"
-                                   ng-click="toggleScheduleTeacherMaybe(day, timeslot, teacher.key)"
-                                   ng-checked="(scheduleCheckTeacherMaybe(timeslot, teacher.key) && scheduleCheckTeacher(timeslot, teacher.key))">
+                                   ng-click="toggleSchedule(timeslot.recessTeachers, teacher.key)"
+                                   ng-checked="timeslot.recessTeachers.includes(teacher.key)">
                         </span>
-                        <span class="form-check">
-                            <input class="form-check-input second-check"
+                        <span>
+                            Ma: <input
                                    type="checkbox"
-                                   ng-click="toggleScheduleTeacher(day, timeslot, teacher.key)"
-                                   ng-checked="scheduleCheckTeacher(timeslot, teacher.key)">
+                                   ng-click="toggleSchedule(timeslot.mathTeachers, teacher.key)"
+                                   ng-checked="timeslot.mathTeachers.includes(teacher.key)">
+                        </span>
+                        <span>
+                            PE: <input
+                                   type="checkbox"
+                                   ng-click="toggleSchedule(timeslot.PETeachers, teacher.key)"
+                                   ng-checked="timeslot.PETeachers.includes(teacher.key)">
+                        </span>
+                        <span>
+                            Mu: <input
+                                   type="checkbox"
+                                   ng-click="toggleSchedule(timeslot.musicTeachers, teacher.key)"
+                                   ng-checked="timeslot.musicTeachers.includes(teacher.key)">
                         </span>
                     </td>
 
                 </tr>
             </table>
         </div>
-        
-        <br/>
-
-        <!-- Schedule controls -->
-        <!--h5>Customize Schedule by Instrument Group:</h5>
-        <div>
-            <table class="table" ng-repeat="(dayName, day) in school.schedule">
-                <tr>
-                    <td class="capitalize">
-                        {{dayName}}
-                        <input type="checkbox"
-                               ng-model="days[dayName]" />
-                    </td>
-                    <td ng-if="days[dayName]" ng-repeat="(igName, ig) in school.instrumentGroups">
-                        {{ig.name}}
-                    </td>
-
-                </tr>
-                <tr ng-repeat="(timeslotName, timeslot) in day.timeslots">
-                    <td>{{timeslot.startTime}} - {{timeslot.endTime}}</td>
-
-                    <td ng-if="days[dayName]" ng-repeat="(igName, ig) in school.instrumentGroups">
-                        <span class="form-check">
-                            <input class="form-check-input"
-                                   type="checkbox"
-                                   ng-click="toggleScheduleIGMaybe(day, timeslot, ig)"
-                                   ng-checked="(scheduleCheckIGMaybe(timeslot, ig) && scheduleCheckIG(timeslot, ig))">
-                        </span>
-                        <span class="form-check">
-                            <input class="form-check-input second-check"
-                                   type="checkbox"
-                                   ng-click="toggleScheduleIG(day, timeslot, ig)"
-                                   ng-checked="scheduleCheckIG(timeslot, ig)">
-                        </span>
-                    </td>
-
-                </tr>
-            </table>
-        </div-->
         
         <br/>
 
@@ -146,9 +119,12 @@
                     <td class="group-name">Groups available</td>
                 </tr>
                 <tr ng-repeat="timeslot in day.timeslots">
-                    <td>{{timeslot.startTime}} - {{timeslot.endTime}} {{gradeEvents(timeslot)}}</td>
+                    <td>{{timeslot.startTime}} - {{timeslot.endTime}}</td>
                     <td>
-                    	{{groupsAvailable(timeslot)}}
+                    	<span class="text--green" ng-if="groupsAvailable(timeslot)['free'].length">Free: {{groupsAvailable(timeslot)['free'].join(', ')}}</span>
+                    	<span class="text--blue" ng-if="groupsAvailable(timeslot)['music'].length">Music: {{groupsAvailable(timeslot)['music'].join(', ')}}</span>
+                    	<span class="text--orange" ng-if="groupsAvailable(timeslot)['pe'].length">PE: {{groupsAvailable(timeslot)['pe'].join(', ')}}</span>
+                    	<span class="text--red" ng-if="groupsAvailable(timeslot)['math'].length">Math: {{groupsAvailable(timeslot)['math'].join(', ')}}</span>
                     </td>
                 </tr>
             </table>
@@ -172,8 +148,10 @@
                     <td>{{timeslot.startTime}} - {{timeslot.endTime}} {{gradeEvents(timeslot)}}</td>
                     <td ng-repeat="instrumentGroup in school.instrumentGroups"
                         ng-class="{'bg--green': openTimeslot(dayName, timeslot, instrumentGroup) === 1,
-                                   'bg--light-red': openTimeslot(dayName, timeslot, instrumentGroup) === 2,
-                                   'bg--red': openTimeslot(dayName, timeslot, instrumentGroup) === 3,
+                                   'bg--blue': openTimeslot(dayName, timeslot, instrumentGroup) === 2,
+                                   'bg--orange': openTimeslot(dayName, timeslot, instrumentGroup) === 3,
+                                   'bg--light-red': openTimeslot(dayName, timeslot, instrumentGroup) === 4,
+                                   'bg--red': openTimeslot(dayName, timeslot, instrumentGroup) === 5,
                                    'bg--white': computedSchedule[dayName+timeslot.startTime][instrumentGroup.name]
                                    }"
                         data-toggle="tooltip"
@@ -253,6 +231,7 @@
     <script type="text/javascript" src="data/instrumentGroupData/instrumentGroupData__TG.js"></script>
     <script type="text/javascript" src="data/instrumentGroupData/instrumentGroupData__W.js"></script>
     <script type="text/javascript" src="data/timeslotData/timeslotData__TG.js"></script>
+    <script type="text/javascript" src="data/timeslotData/timeslotData__TG__Red.js"></script>
     <script type="text/javascript" src="data/timeslotData/timeslotData__W__A.js"></script>
     <script type="text/javascript" src="data/timeslotData/timeslotData__W__B.js"></script>
     <script type="text/javascript" src="data/teacherData/teacherData__TG.js"></script>

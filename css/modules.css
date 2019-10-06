@@ -12,6 +12,10 @@
   background-color: green;
 }
 
+.bg--blue {
+  background-color: blue;
+}
+
 .bg--yellow {
   background-color: yellow;
 }
@@ -42,5 +46,17 @@
 
 .text--red {
   color: red;
+}
+
+.text--orange {
+  color: orange;
+}
+
+.text--blue {
+  color: blue;
+}
+
+.text--bold {
+  font-weight: bold;
 }
 
