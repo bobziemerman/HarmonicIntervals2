@@ -82,11 +82,17 @@
                                    ng-click="toggleSchedule(timeslot.recessTeachers, teacher.key)"
                                    ng-checked="timeslot.recessTeachers.includes(teacher.key)">
                         </span>
-                        <span>
+                        <span ng-if="school.name.includes('Tulip Grove')">
                             Ma: <input
                                    type="checkbox"
                                    ng-click="toggleSchedule(timeslot.mathTeachers, teacher.key)"
                                    ng-checked="timeslot.mathTeachers.includes(teacher.key)">
+                        </span>
+                        <span ng-if="school.name.includes('Woodmore')">
+                            Art: <input
+                                   type="checkbox"
+                                   ng-click="toggleSchedule(timeslot.artTeachers, teacher.key)"
+                                   ng-checked="timeslot.artTeachers.includes(teacher.key)">
                         </span>
                         <span>
                             PE: <input
