@@ -68,7 +68,7 @@ var timeslotData__TG = {
 				'12:45': {
 					'startTime': '12:45',
 					'endTime': '1:15',
-					'recessTeachers': [],
+					'recessTeachers': ['Richardson','Taylor'],
 					'mathTeachers': [],
 					'artTeachers': [],
 					'PETeachers': [],
