@@ -211,14 +211,23 @@ console.log($scope.teachers);
     			return red;
     		}
     		
-    		//If this group is in math, assign light red
+    		//If this group is in math, assign light red (unless they missed last week, then red)
     		_.each($scope.school.instrumentGroups[instrumentGroup.id].teachers, function(teacher){
 	    		if($scope.school.schedule[day].timeslots[timeslot.startTime].mathTeachers.includes(teacher)){
 	    			returnColor = true;
 	    		}
     		});
     		if(returnColor){
-    			return lightRed
+    			//Check to see if they missed math last week
+    			var missed = false
+    			if($scope.missedMathState){
+	    			$scope.missedMathState.forEach(function(mathGroup){
+						if(mathGroup.name === instrumentGroup.name){
+							missed = true
+						}
+					})
+    			}
+    			return missed ? red : lightRed;
     		}
     		
     		//If this group is in PE, assign orange

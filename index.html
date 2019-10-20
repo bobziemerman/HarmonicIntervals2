@@ -36,12 +36,12 @@
                 <div>
                     <h5>Did anyone miss math last week? </h5>
                 </div>
-                <div>
+                <!--div>
                     <span>Enter last week's data: </span>
                     <input ng-model="mathGroups"></input>
-                </div>
+                </div-->
                 <div>
-                    <span>Or select from the list: </span>
+                    <span>Select from the list: </span>
                     <span   
                         isteven-multi-select
                         input-model="missedMath"
@@ -131,6 +131,7 @@
                     	<span class="text--blue" ng-if="groupsAvailable(timeslot)['music'].length">Music: {{groupsAvailable(timeslot)['music'].join(', ')}}</span>
                     	<span class="text--orange" ng-if="groupsAvailable(timeslot)['pe'].length">PE: {{groupsAvailable(timeslot)['pe'].join(', ')}}</span>
                     	<span class="text--red" ng-if="groupsAvailable(timeslot)['math'].length">Math: {{groupsAvailable(timeslot)['math'].join(', ')}}</span>
+                    	<span class="text--red" ng-if="groupsAvailable(timeslot)['missedMath'].length">Missed Math: {{groupsAvailable(timeslot)['missedMath'].join(', ')}}</span>
                     </td>
                 </tr>
             </table>
