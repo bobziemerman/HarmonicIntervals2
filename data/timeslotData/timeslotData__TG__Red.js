@@ -6,7 +6,7 @@ var timeslotData__TG__Red = {
 					'startTime': '08:30',
 					'endTime': '09:00',
 					'recessTeachers': [],
-					'mathTeachers': ['BJ','Retrievers'],
+					'mathTeachers': ['Holmes', 'Myers'],
 					'artTeachers': [],
 					'PETeachers': [],
 					'musicTeachers': ['Richardson']
@@ -15,7 +15,7 @@ var timeslotData__TG__Red = {
 					'startTime': '09:00',
 					'endTime': '09:30',
 					'recessTeachers': [],
-					'mathTeachers': ['BJ','Retrievers'],
+					'mathTeachers': ['Holmes', 'Myers'],
 					'artTeachers': [],
 					'PETeachers': ['Taylor'],
 					'musicTeachers': []
@@ -26,8 +26,8 @@ var timeslotData__TG__Red = {
 					'recessTeachers': [],
 					'mathTeachers': [],
 					'artTeachers': [],
-					'PETeachers': ['BJ'],
-					'musicTeachers': ['Retrievers']
+					'PETeachers': ['Holmes'],
+					'musicTeachers': ['Myers']
 				},
 				'10:00': {
 					'startTime': '10:00',
@@ -51,7 +51,7 @@ var timeslotData__TG__Red = {
 					'startTime': '11:00',
 					'endTime': '11:30',
 					'recessTeachers': [],
-					'mathTeachers': ['Richardson','Taylor'],
+					'mathTeachers': ['Richardson', 'Taylor'],
 					'artTeachers': [],
 					'PETeachers': [],
 					'musicTeachers': []
@@ -60,7 +60,7 @@ var timeslotData__TG__Red = {
 					'startTime': '11:40',
 					'endTime': '12:10',
 					'recessTeachers': [],
-					'mathTeachers': ['Richardson','Taylor'],
+					'mathTeachers': ['Richardson', 'Taylor'],
 					'artTeachers': [],
 					'PETeachers': [],
 					'musicTeachers': []
@@ -68,7 +68,7 @@ var timeslotData__TG__Red = {
 				'12:45': {
 					'startTime': '12:45',
 					'endTime': '1:15',
-					'recessTeachers': ['Richardson','Taylor'],
+					'recessTeachers': ['Richardson', 'Taylor'],
 					'mathTeachers': [],
 					'artTeachers': [],
 					'PETeachers': [],
@@ -86,7 +86,7 @@ var timeslotData__TG__Red = {
 				'01:45': {
 					'startTime': '01:45',
 					'endTime': '02:15',
-					'recessTeachers': ['BJ','Retrievers'],
+					'recessTeachers': ['Holmes', 'Myers'],
 					'mathTeachers': [],
 					'artTeachers': [],
 					'PETeachers': [],
@@ -223,7 +223,7 @@ var timeslotData__TG__Red = {
 					'startTime': '10:00',
 					'endTime': '10:30',
 					'recessTeachers': [],
-					'mathTeachers': ['BJ','Retrievers'],
+					'mathTeachers': ['Holmes', 'Myers'],
 					'artTeachers': [],
 					'PETeachers': [],
 					'musicTeachers': []
@@ -232,7 +232,7 @@ var timeslotData__TG__Red = {
 					'startTime': '10:30',
 					'endTime': '11:00',
 					'recessTeachers': [],
-					'mathTeachers': ['BJ','Retrievers'],
+					'mathTeachers': ['Holmes', 'Myers'],
 					'artTeachers': [],
 					'PETeachers': [],
 					'musicTeachers': []
@@ -241,7 +241,7 @@ var timeslotData__TG__Red = {
 					'startTime': '11:00',
 					'endTime': '11:30',
 					'recessTeachers': [],
-					'mathTeachers': ['BJ','Retrievers','Richardson','Taylor'],
+					'mathTeachers': ['Richardson', 'Taylor', 'Holmes', 'Myers'],
 					'artTeachers': [],
 					'PETeachers': [],
 					'musicTeachers': []
@@ -250,7 +250,7 @@ var timeslotData__TG__Red = {
 					'startTime': '11:40',
 					'endTime': '12:10',
 					'recessTeachers': [],
-					'mathTeachers': ['Richardson','Taylor'],
+					'mathTeachers': ['Richardson', 'Taylor'],
 					'artTeachers': [],
 					'PETeachers': [],
 					'musicTeachers': []
@@ -258,7 +258,7 @@ var timeslotData__TG__Red = {
 				'12:45': {
 					'startTime': '12:45',
 					'endTime': '1:15',
-					'recessTeachers': ['Richardson','Taylor'],
+					'recessTeachers': ['Richardson', 'Taylor'],
 					'mathTeachers': [],
 					'artTeachers': [],
 					'PETeachers': [],
@@ -276,7 +276,7 @@ var timeslotData__TG__Red = {
 				'01:45': {
 					'startTime': '01:45',
 					'endTime': '02:15',
-					'recessTeachers': ['BJ','Retrievers'],
+					'recessTeachers': ['Holmes', 'Myers'],
 					'mathTeachers': [],
 					'artTeachers': [],
 					'PETeachers': [],
@@ -371,7 +371,7 @@ var timeslotData__TG__Red = {
 				'01:45': {
 					'startTime': '01:45',
 					'endTime': '02:15',
-					'recessTeachers': ['BJ','Retrievers'],
+					'recessTeachers': [],
 					'mathTeachers': [],
 					'artTeachers': [],
 					'PETeachers': [],
@@ -386,7 +386,7 @@ var timeslotData__TG__Red = {
 					'startTime': '08:30',
 					'endTime': '09:00',
 					'recessTeachers': [],
-					'mathTeachers': ['BJ','Retrievers'],
+					'mathTeachers': ['Holmes', 'Myers'],
 					'artTeachers': [],
 					'PETeachers': ['Richardson'],
 					'musicTeachers': ['Taylor']
@@ -398,7 +398,7 @@ var timeslotData__TG__Red = {
 					'mathTeachers': [],
 					'artTeachers': [],
 					'PETeachers': [],
-					'musicTeachers': ['BJ']
+					'musicTeachers': ['Holmes']
 				},
 				'09:30': {
 					'startTime': '09:30',
@@ -406,14 +406,14 @@ var timeslotData__TG__Red = {
 					'recessTeachers': [],
 					'mathTeachers': [],
 					'artTeachers': [],
-					'PETeachers': ['Retrievers'],
+					'PETeachers': ['Myers'],
 					'musicTeachers': []
 				},
 				'10:00': {
 					'startTime': '10:00',
 					'endTime': '10:30',
 					'recessTeachers': [],
-					'mathTeachers': ['BJ','Retrievers'],
+					'mathTeachers': ['Holmes', 'Myers'],
 					'artTeachers': [],
 					'PETeachers': [],
 					'musicTeachers': []
@@ -422,7 +422,7 @@ var timeslotData__TG__Red = {
 					'startTime': '10:30',
 					'endTime': '11:00',
 					'recessTeachers': [],
-					'mathTeachers': ['Richardson','Taylor'],
+					'mathTeachers': ['Richardson', 'Taylor'],
 					'artTeachers': [],
 					'PETeachers': [],
 					'musicTeachers': []
@@ -431,7 +431,7 @@ var timeslotData__TG__Red = {
 					'startTime': '11:00',
 					'endTime': '11:30',
 					'recessTeachers': [],
-					'mathTeachers': ['Richardson','Taylor'],
+					'mathTeachers': ['Richardson', 'Taylor'],
 					'artTeachers': [],
 					'PETeachers': [],
 					'musicTeachers': []
@@ -448,7 +448,7 @@ var timeslotData__TG__Red = {
 				'12:45': {
 					'startTime': '12:45',
 					'endTime': '1:15',
-					'recessTeachers': ['Richardson','Taylor'],
+					'recessTeachers': ['Richardson', 'Taylor'],
 					'mathTeachers': [],
 					'artTeachers': [],
 					'PETeachers': [],
@@ -466,7 +466,7 @@ var timeslotData__TG__Red = {
 				'01:45': {
 					'startTime': '01:45',
 					'endTime': '02:15',
-					'recessTeachers': ['BJ','Retrievers'],
+					'recessTeachers': ['Holmes', 'Myers'],
 					'mathTeachers': [],
 					'artTeachers': [],
 					'PETeachers': [],
